@@ -237,6 +237,139 @@ db.students.updateOne(
 ```javascript
 db.students.find()
 ```
+---
+
+# 📌 Task 3 – MongoDB Query Operators
+
+This task covers **Comparison**, **Logical**, **Element**, **Array**, and **Evaluation** operators in MongoDB.
+All queries are executed on the `students` collection inside the `learning_mongo` database.
 
 ---
+
+## 1️⃣ Comparison Operators
+
+**Find all students whose age is exactly 26**
+
+```js
+db.students.find({ age: { $eq: 26 } })
+```
+
+**Find students whose age is not equal to 26**
+
+```js
+db.students.find({ age: { $ne: 26 } })
+```
+
+**Find students whose age is greater than 24**
+
+```js
+db.students.find({ age: { $gt: 24 } })
+```
+
+**Find students whose age is less than 23**
+
+```js
+db.students.find({ age: { $lt: 23 } })
+```
+
+**Find students who live in either Pune or Satara**
+
+```js
+db.students.find({ city: { $in: ["Pune", "Satara"] } })
+```
+
+---
+
+## 2️⃣ Logical Operators
+
+**Find students whose age is greater than 24 AND city is Satara**
+
+```js
+db.students.find({
+  $and: [{ age: { $gt: 24 } }, { city: "Satara" }]
+})
+```
+
+**Find students whose city is Pune OR Navi Mumbai**
+
+```js
+db.students.find({
+  $or: [{ city: "Pune" }, { city: "Navi Mumbai" }]
+})
+```
+
+**Find students whose age is NOT greater than 25**
+
+```js
+db.students.find({ age: { $not: { $gt: 25 } } })
+```
+
+**Find students who are not from Pune and not younger than 22**
+
+```js
+db.students.find({
+  $and: [
+    { city: { $not: { $eq: "Pune" } } },
+    { age: { $not: { $lt: 22 } } }
+  ]
+})
+```
+
+---
+
+## 3️⃣ Element Operators
+
+**Find students who have a profile field**
+
+```js
+db.students.find({ profile: { $exists: true } })
+```
+
+**Find students whose age field type is int**
+
+```js
+db.students.find({ age: { $type: "int" } })
+```
+
+---
+
+## 4️⃣ Array Operators
+
+**Find students whose subjects contain both Python and Math**
+
+```js
+db.students.find({ subjects: { $all: ["Python", "Math"] } })
+```
+
+**Find students who have exactly 2 subjects**
+
+```js
+db.students.find({ subjects: { $size: 2 } })
+```
+
+---
+
+## 5️⃣ Evaluation Operators
+
+**Find students whose name starts with "R"**
+
+```js
+db.students.find({ name: { $regex: "^R" } })
+```
+
+**Find students whose subjects contain the word Python (using \$text)**
+
+```js
+db.students.createIndex({ subjects: "text" })
+db.students.find({ $text: { $search: "Python" } })
+```
+
+**Find students whose age is greater than 25 using \$expr**
+
+```js
+db.students.find({ $expr: { $gt: ["$age", 25] } })
+```
+
+---
+
 
